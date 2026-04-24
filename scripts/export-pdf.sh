@@ -97,6 +97,16 @@ echo ""
 
 info "Checking dependencies..."
 
+# Expand PATH to cover common Node.js install locations before checking
+for _node_dir in \
+    "/opt/homebrew/bin" \
+    "/usr/local/bin" \
+    "$HOME/.nvm/versions/node/$(ls "$HOME/.nvm/versions/node" 2>/dev/null | sort -V | tail -1)/bin" \
+    "$HOME/.volta/bin" \
+    "$NVM_BIN"; do
+    [[ -d "$_node_dir" && ":$PATH:" != *":$_node_dir:"* ]] && export PATH="$_node_dir:$PATH"
+done
+
 if ! command -v npx &>/dev/null; then
     err "Node.js is required but not installed."
     err ""

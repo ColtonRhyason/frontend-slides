@@ -296,27 +296,31 @@ document.addEventListener("keydown", (e) => {
 });
 ```
 
-**CRITICAL: `exportFile()` must strip edit state before capturing outerHTML.**
+**CRITICAL: `save()` must download a file — never use localStorage. It must also strip live DOM state before capturing outerHTML.**
 
 When the user presses Ctrl+S in edit mode, `document.documentElement.outerHTML` captures the live DOM —
-including `body.edit-active`, `contenteditable="true"` on every text element, and `.active`/`.show` classes on
-the toggle button and banner. Anyone opening the saved file sees dashed outlines, a checkmark button, and an
-edit banner, as if permanently stuck in edit mode.
+including `body.edit-active`, `contenteditable="true"` on every text element, `.active`/`.show` classes on
+the toggle button, and `.visible` classes on every slide. Anyone opening the saved file sees dashed outlines
+and all slides pre-animated (animations never fire on reload).
 
-Always implement `exportFile()` like this:
+Always implement `save()` like this:
 
 ```javascript
-exportFile() {
-    // Temporarily strip edit state so the saved file opens cleanly
+save() {
+    // Strip edit state so the saved file opens cleanly
     const editableEls = Array.from(document.querySelectorAll('[contenteditable]'));
     editableEls.forEach(el => el.removeAttribute('contenteditable'));
     document.body.classList.remove('edit-active');
 
-    // Also strip UI classes from toggle button and banner
+    // Strip UI classes from toggle button and banner
     const editToggle = document.getElementById('editToggle');
     const editBanner = document.querySelector('.edit-banner');
     editToggle?.classList.remove('active', 'show');
     editBanner?.classList.remove('active', 'show');
+
+    // Strip .visible from slides so animations fire fresh on reload
+    const visibleSlides = Array.from(document.querySelectorAll('.slide.visible'));
+    visibleSlides.forEach(s => s.classList.remove('visible'));
 
     const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 
@@ -325,6 +329,7 @@ exportFile() {
     editableEls.forEach(el => el.setAttribute('contenteditable', 'true'));
     editToggle?.classList.add('active');
     editBanner?.classList.add('active');
+    visibleSlides.forEach(s => s.classList.add('visible'));
 
     const blob = new Blob([html], { type: 'text/html' });
     const a = document.createElement('a');
