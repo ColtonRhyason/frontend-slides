@@ -1,4 +1,21 @@
-# Frontend Slides
+# Frontend Slides, Shift Projects edition
+
+## Quick start for the Shift team
+
+1. Install **Claude Code** and sign in (claude.com/claude-code).
+2. Open a terminal and run:
+
+```bash
+git clone https://github.com/ColtonRhyason/frontend-slides.git ~/.claude/skills/frontend-slides && bash ~/.claude/skills/frontend-slides/setup.sh
+```
+
+3. Open Claude Code and type `/frontend-slides`, then ask for what you need, for example *"A Shift Projects deck for a client kickoff, 10 slides"*.
+
+You get an on-brand HTML deck you can present in any browser, edit in place (press **E**), and export to PDF. For **Google Slides**, ask Claude for "a Google Slides version", then drag the `.pptx` it saves into Google Drive. See [docs/google-slides.md](docs/google-slides.md).
+
+Update later with `cd ~/.claude/skills/frontend-slides && git pull`.
+
+---
 
 A Claude Code skill for creating stunning, animation-rich HTML presentations — from scratch or by converting PowerPoint files.
 

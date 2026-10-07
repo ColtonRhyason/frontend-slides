@@ -63,29 +63,33 @@ These invariants apply to EVERY slide in EVERY presentation:
 
 ---
 
-## PaintScout Context Detection
+## Shift Projects Context Detection
 
-**Check for PaintScout context BEFORE anything else.** Trigger when any of these are true:
+**Check for Shift Projects context BEFORE anything else.** Trigger when any of these are true:
 
-- User asks for a "PaintScout" deck, presentation, or workshop
-- User mentions painting contractors, estimating, or painting-business topics in a PaintScout context
-- User uploads PaintScout-branded source material (existing decks, logos, screenshots)
-- User identifies themselves as working at or consulting for PaintScout
-- Conversation memory indicates PaintScout work context
+- User asks for a "Shift Projects" or "Shift Accessibility" deck or presentation
+- User mentions residential construction, custom builds, renovations or accessibility renovations in a Shift context
+- User uploads Shift-branded source material (existing decks, logos, photos)
+- User identifies themselves as working at or consulting for Shift Projects
+- Conversation memory indicates Shift Projects work context
 
-**When PaintScout context is detected:**
+**When Shift Projects context is detected:**
 
 1. **Read both files in full before doing anything else:**
-   - [`paintscout-brand.md`](paintscout-brand.md) — official brand rules, voice, color tokens, layout catalog
-   - [`paintscout-slide-library.html`](paintscout-slide-library.html) — the authoritative template with all 13 layouts
+   - [`shift-projects-brand.md`](shift-projects-brand.md) — brand platform, colours, typography, logo rules, voice, layout catalog
+   - [`shift-projects-slide-library.html`](shift-projects-slide-library.html) — the authoritative template with all layouts
 
-2. **Follow the [`PROMPT.md`](PROMPT.md) workflow** — standard slide structure, brand tokens, build steps, and constraints are all defined there.
+2. **Skip Phase 2 (style discovery)** — the brand is already decided. Go straight to Phase 1 scope questions, then Phase 3 generation using `shift-projects-slide-library.html` as the base template.
 
-3. **Skip Phase 2 (style discovery)** — the brand is already decided. Go straight to Phase 1 scope questions, then Phase 3 generation using `paintscout-slide-library.html` as the base template.
+3. **Never regenerate CSS or layouts from scratch** — clone the template and edit content only. Marks live in `assets/shift-projects/`.
 
-4. **Never regenerate CSS or layouts from scratch** — clone the template and edit content only.
+> `shift-projects-brand.md`, `shift-projects-slide-library.html` and `assets/shift-projects/` are all included in the skill directory. No additional setup required.
 
-> When a teammate installs this skill, `paintscout-brand.md`, `paintscout-slide-library.html`, and `PROMPT.md` are all included in the skill directory. No additional setup required.
+---
+
+## Google Slides output (Shift Projects)
+
+If the user wants Google Slides or a PowerPoint, do **not** convert the HTML. Use the native template `templates/Shift-Projects-Template.pptx` with `scripts/shift_pptx.py` (`open_template`, `keep`, `set_text`, `texts`), save the `.pptx` to Downloads, and tell them to drag it into Google Drive and open it with Google Slides. Full steps: `CLAUDE.md` and `docs/google-slides.md`. First time on a machine: `bash setup.sh`.
 
 ---
 
@@ -346,6 +350,5 @@ This captures each slide as a screenshot and combines them into a PDF. Perfect f
 | [scripts/extract-pptx.py](scripts/extract-pptx.py) | Python script for PPT content extraction                                       | Phase 4 (conversion)        |
 | [scripts/deploy.sh](scripts/deploy.sh)             | Deploy slides to Vercel for instant sharing                                    | Phase 6 (sharing)           |
 | [scripts/export-pdf.sh](scripts/export-pdf.sh)     | Export slides to PDF                                                           | Phase 6 (sharing)           |
-| [paintscout-brand.md](paintscout-brand.md)         | PaintScout official brand rules — colors, typography, voice, layout catalog    | PaintScout context detected |
-| [paintscout-slide-library.html](paintscout-slide-library.html) | PaintScout master template with all 13 layouts, inline editing, logos | PaintScout context detected |
-| [PROMPT.md](PROMPT.md)                             | PaintScout workshop build workflow — slide structure, build steps, constraints | PaintScout context detected |
+| [shift-projects-brand.md](shift-projects-brand.md) | Shift Projects brand rules — colours, typography, logo, voice, layout catalog | Shift context detected |
+| [shift-projects-slide-library.html](shift-projects-slide-library.html) | Shift Projects master template with 19 layouts, inline editing, logos | Shift context detected |

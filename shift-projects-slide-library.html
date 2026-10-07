@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shift Projects Slide Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!--
+============================================================================
+SHIFT PROJECTS SLIDE LIBRARY
+Source: Shift Projects Brand Guidelines (Public Eye Studio, March 2025).
+Rules live in shift-projects-brand.md. Read it before editing.
+
+HOW TO USE
+1. Duplicate this file and rename it.
+2. Press E (or hover the top-left corner) to edit text in the browser.
+3. Ctrl+S exports the edited HTML.
+4. Delete slides you do not need (<section class="slide">); copy one to repeat it.
+5. Page numbers fill in automatically.
+
+KEYS: Arrows / Space / PageDown = next, PageUp = previous, E = edit, Ctrl+S = save
+
+TYPE: Apparat is the licensed display face. Familjen Grotesk is the stand-in.
+To use Apparat, add @font-face rules and put 'Apparat' first in --font-display.
+
+PHOTOS: every .photo block is a placeholder. Replace it with
+<div class="photo process"><img src="..." alt=""></div>   (single-colour sepia, behind the scenes)
+<div class="photo project"><img src="..." alt=""></div>   (full colour, finished work)
+
+LAYOUTS
+ 1 cover            2 divider          3 agenda          4 split
+ 5 numbered         6 statement        7 reversed        8 stats
+ 9 feature+crop    10 photo grid      11 quote          12 tone dials
+13 pillars         14 do / don't      15 cards          16 steps
+17 poll            18 recap           19 closing
+============================================================================
+-->
+
+<style>
+:root {
+    --sp-black: #282829;
+    --sp-cream: #f7eddb;
+    --sp-lumber: #e0b977;
+    --sp-olive: #978745;
+    --sp-brick: #c35d27;
+    --sp-slate: #8ba5bc;
+    --font-display: 'Apparat', 'Familjen Grotesk', 'Inter Tight', sans-serif;
+    --font-body: 'Inter', Arial, sans-serif;
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* 1rem = 1% of a 16:9 frame width, so a 1920x1080 slide is 100rem x 56.25rem */
+html { font-size: min(1vw, 1.7778vh); scroll-snap-type: y mandatory; scroll-behavior: smooth; background: var(--sp-cream); }
+body { font-family: var(--font-body); color: var(--sp-black); background: var(--sp-cream); -webkit-font-smoothing: antialiased; }
+
+.slide {
+    position: relative; width: 100vw; height: 100vh; height: 100dvh; overflow: hidden;
+    scroll-snap-align: start; display: flex; align-items: center; justify-content: center;
+    background: var(--sp-cream); color: var(--sp-black);
+}
+.stage { position: relative; width: 100rem; height: 56.25rem; flex: none; }
+
+.bg-lumber { background: var(--sp-lumber); }
+.bg-slate  { background: var(--sp-slate); }
+.bg-olive  { background: var(--sp-olive); }
+.bg-brick  { background: var(--sp-brick); }
+.bg-black  { background: var(--sp-black); color: var(--sp-cream); }
+
+/* ---------- Frame: eyebrow row + footer ---------- */
+.eyebrow, .footer {
+    position: absolute; left: 4.15rem; right: 4.15rem; display: flex;
+    font-weight: 700; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase;
+}
+.eyebrow { top: 4.15rem; z-index: 3; }
+.eyebrow .section { width: 15.7rem; }
+.eyebrow .rule { width: 7.7rem; height: 0.15rem; margin-top: 0.3rem; background: currentColor; opacity: 0.4; margin-right: 8rem; transform-origin: left; }
+.eyebrow .sub { flex: 1; }
+.footer { bottom: 2.9rem; z-index: 3; }
+.footer .co { width: 18.9rem; }
+.footer .deck { flex: 1; }
+.footer .pg { text-align: right; }
+
+/* ---------- Type ---------- */
+.display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.02em; line-height: 0.95; }
+.h1 { font-size: 5rem; line-height: 1; }
+.h2 { font-size: 3.4rem; line-height: 1.02; }
+.h-xl { font-size: 12rem; }
+.sub-head { font-weight: 700; text-transform: uppercase; font-size: 1.4rem; line-height: 1.15; }
+.label { font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.16em; }
+.body { font-size: 1.05rem; line-height: 1.4; }
+.lede { font-size: 2.2rem; line-height: 1.25; letter-spacing: -0.01em; }
+.muted { opacity: 0.55; }
+.at { position: absolute; }
+.l0 { left: 4.15rem; }
+.l1 { left: 35.5rem; }
+.l2 { left: 51rem; }
+.l3 { left: 60.6rem; }
+.hr { border-top: 0.15rem solid currentColor; opacity: 1; }
+svg.mark { display: block; fill: currentColor; }
+
+/* ---------- Photo placeholders ---------- */
+.photo { position: relative; overflow: hidden; background: rgba(40,40,41,0.12); color: rgba(40,40,41,0.55); display: flex; align-items: flex-end; padding: 0.8rem 1rem; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; }
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.photo.process img { filter: grayscale(1) sepia(0.45) contrast(1.05); }
+.photo.process { background: rgba(40,40,41,0.2); }
+/* Branded crop: apply to a .photo that sits over a brand-colour field (see Feature slide) */
+.sp-crop { clip-path: polygon(0 62%, 22% 62%, 27% 52%, 32% 42%, 100% 42%, 100% 100%, 0 100%); }
+
+/* ---------- 1 Cover / 2 Divider ---------- */
+.cover .title, .divider .title { left: 4.15rem; top: 3.6rem; }
+.divider .num { right: 4.15rem; top: 3.6rem; font-size: 12rem; }
+.cover .linear, .divider .linear { right: 0; bottom: 6.5rem; width: 46rem; height: auto; color: var(--sp-black); }
+.cover .icon { right: 4.15rem; top: 4.15rem; width: 5.4rem; height: auto; }
+.cover .linear, .divider .linear { opacity: 0.92; }
+
+/* ---------- 3 Agenda ---------- */
+.agenda .lead { left: 4.15rem; top: 11.5rem; width: 38rem; }
+.agenda .lead p { margin-top: 2.5rem; width: 25rem; }
+.agenda .cols { position: absolute; left: 51rem; top: 12.2rem; right: 4.15rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem 2rem; }
+.agenda .item .n { font-weight: 700; font-size: 1.4rem; }
+.agenda .item .t { margin-bottom: 0.5rem; }
+.agenda .item li { list-style: none; font-size: 0.85rem; line-height: 1.55; opacity: 0.85; }
+
+/* ---------- 4 Split ---------- */
+.split .head { left: 4.15rem; top: 11.5rem; width: 44rem; }
+.split .copy { left: 60.6rem; top: 12.1rem; width: 35rem; }
+.split .copy p + p { margin-top: 1rem; }
+
+/* ---------- 5 Numbered ---------- */
+.numbered .head { left: 4.15rem; top: 11.5rem; width: 30rem; }
+.numbered .row { position: absolute; left: 35.5rem; right: 4.15rem; top: 22rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.numbered .row.three { left: 51rem; grid-template-columns: repeat(3, 1fr); }
+.numbered .cell .n { font-weight: 700; font-size: 1.4rem; margin-bottom: 0.3rem; }
+.numbered .cell .t { margin-bottom: 0.4rem; }
+
+/* ---------- 6 Statement ---------- */
+.statement .big { left: 4.4rem; top: 12rem; width: 74rem; font-size: 12rem; line-height: 0.98; }
+.statement .aside { left: 79.5rem; top: 28rem; width: 16rem; }
+
+/* ---------- 7 Reversed ---------- */
+.reversed .band { position: absolute; left: 0; right: 0; height: 6.4rem; background: var(--sp-brick); transform-origin: left; }
+.reversed .band.one { top: 22rem; }
+.reversed .band.two { top: 31.5rem; }
+.reversed .stat { left: 4.15rem; top: 6.5rem; font-size: 14rem; color: var(--sp-cream); }
+.reversed .cap { left: 4.15rem; bottom: 8rem; width: 38rem; }
+
+/* ---------- 8 Stats ---------- */
+.stats .head { left: 4.15rem; top: 11.5rem; width: 40rem; }
+.stats .row { position: absolute; left: 4.15rem; right: 4.15rem; top: 27rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+.stats .cell { border-top: 0.15rem solid var(--sp-black); padding-top: 1.2rem; }
+.stats .cell .num { font-size: 8rem; margin-bottom: 1rem; }
+.stats .cell .label { margin-bottom: 0.5rem; }
+
+/* ---------- 9 Feature + crop ---------- */
+.feature .copy { left: 4.15rem; top: 11.5rem; width: 38rem; }
+.feature .copy h2 { margin-bottom: 1.6rem; }
+.feature .copy ul { margin-top: 1.8rem; list-style: none; }
+.feature .copy li { border-top: 0.1rem solid rgba(40,40,41,0.45); padding: 0.75rem 0; font-size: 1rem; }
+.feature .panel { right: 4.15rem; top: 11.5rem; width: 46rem; height: 36rem; background: var(--sp-olive); }
+.feature .panel .photo { position: absolute; inset: 0; background: rgba(40,40,41,0.28); clip-path: polygon(0 62%, 22% 62%, 27% 52%, 32% 42%, 100% 42%, 100% 100%, 0 100%); align-items: flex-end; }
+.feature .panel .icon { position: absolute; left: 2rem; top: 43%; width: 5rem; height: auto; color: var(--sp-black); z-index: 2; }
+.feature .panel .tag { position: absolute; left: 2rem; top: 1.8rem; z-index: 2; width: 30rem; font-weight: 700; text-transform: uppercase; font-size: 1.7rem; line-height: 1.05; }
+
+/* ---------- 10 Photo grid ---------- */
+.photos .grid { position: absolute; left: 4.15rem; right: 4.15rem; top: 11.6rem; height: 37rem; display: grid; grid-template-columns: 5fr 4fr 3fr 6fr; grid-template-rows: 1fr 1fr 1fr; gap: 1.5rem; }
+.photos .p1 { grid-column: 1; grid-row: 1 / 4; }
+.photos .p2 { grid-column: 2; grid-row: 1 / 2; }
+.photos .p3 { grid-column: 2; grid-row: 2 / 4; }
+.photos .p4 { grid-column: 3; grid-row: 1 / 3; }
+.photos .p5 { grid-column: 4; grid-row: 1 / 3; }
+.photos .p6 { grid-column: 3 / 5; grid-row: 3; }
+.photos .cap { position: absolute; top: 8rem; width: 40rem; }
+
+/* ---------- 11 Quote ---------- */
+.quote .q { left: 4.15rem; top: 11.5rem; width: 78rem; font-size: 5rem; line-height: 1.02; }
+.quote .who { left: 4.15rem; bottom: 8rem; }
+.quote .icon { right: 4.15rem; bottom: 7rem; width: 6.5rem; height: auto; }
+.quote .photo { right: 4.15rem; top: 11.5rem; }
+
+/* ---------- 12 Tone dials ---------- */
+.dials .head { left: 4.15rem; top: 11.5rem; width: 36rem; }
+.dials .rows { position: absolute; left: 51rem; right: 4.15rem; top: 11.6rem; display: grid; gap: 2.2rem; }
+.dials .r { position: relative; }
+.dials .r .ends { display: flex; justify-content: space-between; }
+.dials .r .line { height: 0.14rem; background: rgba(40,40,41,0.45); margin-top: 0.7rem; position: relative; }
+.dials .r .dot { position: absolute; top: 50%; width: 1.35rem; height: 1.35rem; border-radius: 50%; transform: translate(-50%, -50%); }
+
+/* ---------- 13 Pillars ---------- */
+.pillars .head { left: 4.15rem; top: 11.5rem; }
+.pillars .grp { position: absolute; left: 51rem; right: 4.15rem; }
+.pillars .grp.a { top: 11.6rem; }
+.pillars .grp.b { top: 25.6rem; }
+.pillars .grp .label { padding-bottom: 0.7rem; border-bottom: 0.15rem solid rgba(40,40,41,0.5); margin-bottom: 1.1rem; }
+.pillars .grp .cols { display: grid; gap: 2rem; }
+.pillars .grp.b .cols { grid-template-columns: repeat(3, 1fr); }
+.pillars .grp .t { margin-bottom: 0.4rem; }
+
+/* ---------- 14 Do / Don't ---------- */
+.dodont .head { left: 4.15rem; top: 11.5rem; width: 26rem; }
+.dodont .col { position: absolute; top: 11.6rem; }
+.dodont .col.yes { left: 35.5rem; width: 33rem; }
+.dodont .col.no  { left: 72rem; width: 23.8rem; }
+.dodont .col .label { padding-bottom: 0.7rem; border-bottom: 0.15rem solid rgba(40,40,41,0.5); margin-bottom: 1.3rem; opacity: 0.8; }
+.dodont .cells { display: grid; gap: 1.5rem; }
+.dodont .col.yes .cells { grid-template-columns: repeat(2, 1fr); }
+.dodont .sample { position: relative; height: 10rem; padding: 1.1rem 1.2rem; font-size: 2.2rem; line-height: 0.98; border: 0.08rem solid rgba(40,40,41,0.5); }
+.dodont .sample.k { background: var(--sp-black); color: var(--sp-cream); border-color: var(--sp-black); }
+.dodont .sample.s { background: var(--sp-slate); border-color: transparent; }
+.dodont .sample.o { background: var(--sp-olive); border-color: transparent; }
+.dodont .sample.b { background: var(--sp-brick); border-color: transparent; }
+.dodont .sample.x::before, .dodont .sample.x::after { content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 0.14rem; background: var(--sp-black); transform-origin: center; }
+.dodont .sample.x::before { transform: rotate(18deg); }
+.dodont .sample.x::after { transform: rotate(-18deg); }
+.dodont .cap { margin-top: 0.6rem; font-size: 0.8rem; line-height: 1.35; opacity: 0.6; }
+
+/* ---------- 15 Cards (swatch-style columns) ---------- */
+.cards .head { left: 4.15rem; top: 11.5rem; width: 36rem; }
+.cards .row { position: absolute; left: 4.15rem; right: 4.15rem; top: 24rem; bottom: 8rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.cards .c { padding: 1.4rem; display: flex; flex-direction: column; justify-content: space-between; color: var(--sp-black); }
+.cards .c.k { background: var(--sp-black); color: var(--sp-cream); }
+.cards .c.cr { background: var(--sp-cream); border: 0.1rem solid var(--sp-black); }
+.cards .c.l { background: var(--sp-lumber); }
+.cards .c.o { background: var(--sp-olive); }
+.cards .c.b { background: var(--sp-brick); }
+.cards .c.s { background: var(--sp-slate); }
+.cards .c .t { margin-bottom: 0.5rem; }
+
+/* ---------- 16 Steps (stepped bars echo the linear graphic) ---------- */
+.steps .head { left: 4.15rem; top: 11.5rem; width: 26rem; }
+.steps .bars { position: absolute; left: 35.5rem; right: 0; top: 11.6rem; display: grid; gap: 1.1rem; }
+.steps .bar { position: relative; height: 8rem; background: var(--sp-black); color: var(--sp-cream); display: flex; align-items: center; gap: 2rem; padding: 0 2.5rem; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); transform-origin: left; }
+.steps .bar .n { font-size: 3.2rem; width: 4rem; color: var(--sp-lumber); }
+.steps .bar .t { width: 17rem; }
+.steps .bar:nth-child(1) { margin-left: 0; }
+.steps .bar:nth-child(2) { margin-left: 3rem; }
+.steps .bar:nth-child(3) { margin-left: 6rem; }
+.steps .bar:nth-child(4) { margin-left: 9rem; }
+
+/* ---------- 17 Poll ---------- */
+.poll .q { left: 4.15rem; top: 11.5rem; width: 40rem; }
+.poll .opts { position: absolute; left: 51rem; right: 4.15rem; top: 11.6rem; display: grid; gap: 1.2rem; }
+.poll .opt { display: flex; align-items: center; gap: 1.6rem; border-top: 0.15rem solid rgba(40,40,41,0.5); padding-top: 1.2rem; min-height: 7.4rem; }
+.poll .opt .k { flex: none; width: 3.4rem; height: 3.4rem; border-radius: 50%; background: var(--sp-black); color: var(--sp-cream); display: grid; place-items: center; font-weight: 700; font-size: 1.2rem; }
+
+/* ---------- 18 Recap ---------- */
+.recap .head { left: 4.15rem; top: 11.5rem; width: 30rem; }
+.recap .row { position: absolute; left: 4.15rem; right: 4.15rem; top: 24rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+.recap .cell { border-top: 0.15rem solid var(--sp-black); padding-top: 1.1rem; }
+.recap .cell .n { font-size: 3rem; margin-bottom: 0.8rem; }
+.recap .cell .t { margin-bottom: 0.7rem; }
+.recap .cell li { list-style: none; border-top: 0.1rem solid rgba(40,40,41,0.3); padding: 0.55rem 0; font-size: 0.95rem; }
+
+/* ---------- 19 Closing ---------- */
+.closing .title { left: 4.15rem; top: 3.6rem; font-size: 12rem; }
+.closing .contact { left: 4.15rem; top: 33rem; }
+.closing .contact p { font-weight: 700; text-transform: uppercase; font-size: 1.3rem; line-height: 1.35; }
+.closing .lockup { right: 4.15rem; bottom: 8rem; display: flex; align-items: center; gap: 2rem; }
+.closing .lockup .icon { width: 7rem; height: auto; }
+.closing .lockup .word { width: 18rem; height: auto; }
+.closing .linear { left: 0; right: 0; bottom: 0; }
+
+/* ---------- Motion ---------- */
+.reveal { opacity: 0; transform: translateY(1.2rem); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.slide.visible .reveal, .slide.active .reveal { opacity: 1; transform: none; }
+.slide.visible .reveal:nth-child(2) { transition-delay: 0.08s; }
+.slide.visible .reveal:nth-child(3) { transition-delay: 0.16s; }
+.slide.visible .reveal:nth-child(4) { transition-delay: 0.24s; }
+.slide.visible .reveal:nth-child(5) { transition-delay: 0.32s; }
+.slide.visible .reveal:nth-child(6) { transition-delay: 0.4s; }
+/* grow-in for bands, bars and rules */
+.grow { transform: scaleX(0); transition: transform 0.9s var(--ease) 0.15s; }
+.slide.visible .grow, .slide.active .grow { transform: none; }
+.steps .bar.grow:nth-child(2) { transition-delay: 0.3s; } .steps .bar.grow:nth-child(3) { transition-delay: 0.45s; } .steps .bar.grow:nth-child(4) { transition-delay: 0.6s; }
+/* slide-in for the linear graphic */
+.slide-in { transform: translateX(6rem); opacity: 0; transition: transform 1s var(--ease) 0.2s, opacity 0.8s ease 0.2s; }
+.slide.visible .slide-in, .slide.active .slide-in { transform: none; opacity: 0.92; }
+/* dial dots settle to their value */
+.dial-dot { transition: left 1s var(--ease) 0.3s; left: 50% !important; }
+.slide.visible .dial-dot, .slide.active .dial-dot { left: var(--v) !important; }
+@media (prefers-reduced-motion: reduce) {
+    .reveal, .grow, .slide-in { opacity: 1; transform: none; transition: none; }
+    .dial-dot { left: var(--v) !important; transition: none; }
+    html { scroll-behavior: auto; }
+}
+
+/* ---------- UI chrome (hidden in PDF export) ---------- */
+.nav-dots { position: fixed; right: 1.2rem; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0.5rem; z-index: 50; }
+.nav-dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; border: 1.5px solid var(--sp-black); background: transparent; cursor: pointer; padding: 0; opacity: 0.4; }
+.nav-dot.active { background: var(--sp-black); opacity: 1; }
+.edit-hotzone { position: fixed; top: 0; left: 0; width: 4rem; height: 4rem; z-index: 60; }
+.edit-toggle { position: fixed; top: 1rem; left: 1rem; z-index: 61; font: 700 0.7rem var(--font-body); letter-spacing: 0.12em; text-transform: uppercase; background: var(--sp-black); color: var(--sp-cream); border: 0; padding: 0.5rem 0.8rem; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.edit-hotzone:hover + .edit-toggle, .edit-toggle:hover, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+.edit-toast { position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%); background: var(--sp-black); color: var(--sp-cream); font: 400 0.8rem var(--font-body); padding: 0.5rem 1rem; opacity: 0; transition: opacity 0.2s; z-index: 70; }
+.edit-toast.show { opacity: 1; }
+body.editing [data-editable] { outline: 1px dashed rgba(40,40,41,0.35); outline-offset: 2px; cursor: text; }
+</style>
+</head>
+<body>
+
+<!-- Brand marks (currentColor). Paths extracted from the Brand Guidelines PDF. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+        <g id="sp-icon"><path d="M 1578.554688 497.253906 L 1530.402344 497.132812 C 1524.667969 497.121094 1519.453125 500.449219 1517.050781 505.65625 L 1504.75 532.328125 C 1501.132812 540.164062 1493.28125 545.175781 1484.652344 545.15625 L 1424.59375 545.003906 C 1409.699219 544.96875 1397.675781 532.539062 1398.28125 517.519531 C 1398.855469 503.234375 1411.078125 492.167969 1425.375 492.203125 L 1521.828125 492.445312 C 1524.402344 492.453125 1526.746094 490.957031 1527.820312 488.617188 L 1549.738281 441.09375 L 1425.84375 441.070312 C 1383.152344 440.964844 1347.648438 474.960938 1347.128906 517.644531 C 1346.601562 560.746094 1381.457031 596.035156 1424.46875 596.140625 L 1470.238281 596.253906 C 1475.074219 596.265625 1479.46875 593.460938 1481.496094 589.070312 L 1494.414062 561.058594 C 1498.027344 553.21875 1505.878906 548.207031 1514.511719 548.230469 L 1578.957031 548.390625 C 1593.253906 548.425781 1605.421875 559.550781 1605.925781 573.839844 C 1606.457031 588.863281 1594.371094 601.230469 1579.476562 601.195312 L 1480.515625 600.949219 C 1476.003906 600.9375 1471.898438 603.558594 1470.007812 607.65625 L 1456.003906 638.027344 C 1452.808594 644.953125 1445.871094 649.382812 1438.242188 649.363281 L 1384.960938 649.230469 C 1381.863281 649.222656 1379.050781 651.019531 1377.75 653.828125 L 1356.277344 700.292969 L 1412.816406 700.433594 C 1423.324219 700.460938 1432.882812 694.359375 1437.285156 684.820312 L 1447.171875 663.382812 C 1450.363281 656.453125 1457.285156 652.265625 1464.914062 652.285156 L 1579.351562 652.285156 C 1622.496094 652.394531 1657.601562 617.105469 1657.070312 573.820312 C 1656.546875 531.257812 1621.121094 497.359375 1578.554688 497.253906 "/></g>
+        <g id="sp-stacked"><path d="M 218.941406 494.335938 L 242.730469 494.335938 C 243.851562 515.429688 254.851562 524.40625 280.882812 524.40625 C 306.46875 524.40625 317.914062 519.472656 317.6875 499.722656 C 317.6875 485.359375 311.855469 480.195312 293.898438 476.15625 L 263.378906 469.199219 C 233.753906 462.46875 221.1875 448.328125 221.1875 428.128906 C 221.1875 400.972656 243.179688 381 279.3125 381 C 317.238281 381 338.785156 400.972656 339.683594 429.699219 L 315.894531 429.699219 C 314.546875 409.503906 304 400.972656 279.3125 400.972656 C 255.75 400.972656 245.199219 405.910156 245.199219 425.4375 C 245.199219 437.78125 249.238281 444.289062 270.558594 448.777344 L 297.265625 454.386719 C 329.808594 461.121094 342.824219 475.933594 342.824219 496.578125 C 342.824219 523.960938 320.382812 544.382812 282.230469 544.382812 C 240.710938 544.382812 219.613281 524.183594 218.941406 494.335938 "/><path d="M 358.085938 541.238281 L 358.085938 384.140625 L 379.40625 384.140625 L 379.40625 435.761719 L 386.140625 435.761719 C 393.320312 427.679688 405.214844 422.519531 419.804688 422.519531 C 442.691406 422.519531 458.402344 434.863281 458.402344 462.46875 L 458.402344 541.238281 L 436.859375 541.238281 L 436.859375 469.199219 C 436.859375 445.636719 432.59375 441.371094 408.132812 441.371094 C 383.667969 441.371094 379.40625 445.859375 379.40625 469.425781 L 379.40625 541.238281 Z M 358.085938 541.238281 "/><path d="M 480.621094 384.140625 L 503.0625 384.140625 L 503.0625 407.707031 L 480.621094 407.707031 Z M 481.070312 425.660156 L 502.613281 425.660156 L 502.613281 541.242188 L 481.070312 541.242188 Z M 481.070312 425.660156 "/><path d="M 645.328125 443.164062 L 622.214844 443.164062 L 622.214844 512.738281 C 622.214844 520.59375 624.457031 522.835938 632.761719 522.835938 L 645.328125 522.835938 L 645.328125 541.238281 L 632.984375 541.238281 C 612.789062 541.238281 600.667969 531.140625 600.667969 510.941406 L 600.667969 443.164062 L 558.925781 443.164062 L 558.925781 541.238281 L 537.378906 541.238281 L 537.378906 443.164062 L 520.546875 443.164062 L 520.546875 425.660156 L 537.378906 425.660156 L 537.378906 415.5625 C 537.378906 394.914062 550.171875 384.140625 570.820312 384.140625 L 582.042969 384.140625 L 582.042969 402.546875 L 568.800781 402.546875 C 560.945312 402.546875 558.925781 404.5625 558.925781 412.195312 L 558.925781 425.660156 L 600.667969 425.660156 L 600.667969 394.242188 L 622.214844 394.242188 L 622.214844 425.660156 L 645.328125 425.660156 Z M 645.328125 443.164062 "/><path d="M 220.417969 721.902344 L 220.417969 564.804688 L 287.96875 564.804688 C 316.472656 564.804688 338.914062 580.964844 338.914062 611.261719 C 338.914062 641.558594 316.246094 657.71875 288.195312 657.71875 L 242.859375 657.71875 L 242.859375 721.902344 Z M 242.859375 638.191406 L 286.175781 638.191406 C 307.71875 638.191406 313.105469 634.378906 313.105469 611.261719 C 313.105469 587.921875 307.71875 584.332031 286.175781 584.332031 L 242.859375 584.332031 Z M 242.859375 638.191406 "/><path d="M 348.566406 721.902344 L 348.566406 606.324219 L 369.210938 606.324219 L 369.886719 616.421875 L 376.617188 616.421875 C 383.351562 606.996094 394.347656 603.183594 405.792969 603.183594 L 405.792969 624.503906 L 399.734375 624.503906 C 375.71875 624.503906 370.109375 629.214844 370.109375 650.535156 L 370.109375 721.902344 Z M 348.566406 721.902344 "/><path d="M 405.117188 664.226562 C 405.117188 627.421875 425.988281 603.183594 463.691406 603.183594 C 501.394531 603.183594 521.371094 627.421875 521.371094 664.226562 C 521.371094 701.03125 500.945312 725.046875 463.46875 725.046875 C 425.988281 725.046875 405.117188 701.03125 405.117188 664.226562 M 498.03125 664.226562 C 498.03125 629.441406 493.539062 623.15625 463.46875 623.15625 C 433.394531 623.15625 428.457031 629.441406 428.457031 664.226562 C 428.457031 699.011719 433.394531 705.070312 463.46875 705.070312 C 493.539062 705.070312 498.03125 699.011719 498.03125 664.226562 "/><path d="M 598.308594 671.855469 C 597.1875 695.421875 603.917969 706.417969 631.296875 706.417969 C 648.804688 706.417969 660.472656 702.601562 662.269531 684.875 L 683.367188 684.875 C 681.792969 711.355469 660.699219 725.046875 631.523438 725.046875 C 597.1875 725.046875 575.191406 704.175781 575.191406 665.125 C 575.191406 625.625 598.53125 603.183594 631.746094 603.183594 C 667.429688 603.183594 685.160156 628.09375 685.160156 661.308594 C 685.160156 664.675781 685.160156 668.265625 684.710938 671.855469 Z M 598.308594 654.574219 L 662.042969 654.574219 C 663.390625 630.785156 654.863281 622.933594 631.074219 622.933594 C 607.0625 622.933594 598.308594 630.339844 598.308594 654.574219 "/><path d="M 698.175781 664.003906 C 698.175781 624.953125 719.496094 603.183594 754.507812 603.183594 C 783.90625 603.183594 805.453125 616.871094 806.125 645.597656 L 785.03125 645.597656 C 783.90625 626.746094 776.949219 622.484375 754.28125 622.484375 C 728.699219 622.484375 721.515625 626.074219 721.515625 664.003906 C 721.515625 701.929688 728.699219 705.746094 754.28125 705.746094 C 776.949219 705.746094 783.90625 701.480469 785.03125 682.628906 L 806.125 682.628906 C 805.453125 711.355469 783.90625 725.046875 754.28125 725.046875 C 719.273438 725.046875 698.175781 705.296875 698.175781 664.003906 "/><path d="M 857.964844 721.902344 C 837.769531 721.902344 825.648438 711.804688 825.648438 691.605469 L 825.648438 623.828125 L 808.816406 623.828125 L 808.816406 606.324219 L 825.648438 606.324219 L 825.648438 574.90625 L 847.191406 574.90625 L 847.191406 606.324219 L 870.308594 606.324219 L 870.308594 623.828125 L 847.191406 623.828125 L 847.191406 693.402344 C 847.191406 701.257812 849.4375 703.5 857.742188 703.5 L 870.308594 703.5 L 870.308594 721.902344 Z M 857.964844 721.902344 "/><path d="M 879.960938 685.996094 L 901.054688 685.996094 C 902.402344 699.460938 906.664062 707.089844 930.902344 707.089844 C 953.121094 707.089844 957.160156 701.480469 957.160156 689.363281 C 957.160156 681.957031 953.121094 677.691406 941.453125 675.449219 L 915.417969 670.511719 C 897.691406 667.144531 882.429688 658.839844 882.429688 639.539062 C 882.429688 617.546875 901.503906 603.183594 929.78125 603.183594 C 955.144531 603.183594 976.6875 616.871094 976.238281 641.109375 L 955.144531 641.109375 C 954.019531 627.871094 948.859375 621.136719 928.4375 621.136719 C 907.113281 621.136719 903.300781 626.746094 903.074219 636.847656 C 903.074219 644.253906 905.542969 649.191406 920.132812 651.882812 L 943.695312 656.148438 C 962.101562 659.511719 978.257812 668.265625 978.257812 687.789062 C 978.257812 710.457031 957.609375 725.046875 929.109375 725.046875 C 901.953125 725.046875 879.285156 712.027344 879.960938 685.996094 "/><path d="M 514.285156 760.503906 L 514.285156 742.101562 L 527.75 742.101562 C 535.378906 742.101562 537.398438 740.082031 537.398438 732.902344 L 537.398438 606.324219 L 558.945312 606.324219 L 558.945312 730.207031 C 558.945312 750.40625 546.824219 760.503906 526.628906 760.503906 Z M 514.285156 760.503906 "/><path d="M 537.367188 564.804688 L 559.808594 564.804688 L 559.808594 588.371094 L 537.367188 588.371094 Z M 537.367188 564.804688 "/></g>
+        <g id="sp-linear"><path d="M 1896.027344 677.796875 L 1354.414062 677.796875 C 1341.929688 677.796875 1330.578125 685.011719 1325.273438 696.308594 L 1296.269531 758.113281 C 1288.566406 774.53125 1272.066406 785.015625 1253.929688 785.015625 L 786 785.027344 L 786 899.855469 L 1209.308594 899.855469 C 1221.789062 899.855469 1233.144531 892.636719 1238.445312 881.339844 L 1267.78125 818.824219 C 1275.285156 802.839844 1291.347656 792.632812 1309.003906 792.632812 L 1896.027344 792.625 Z M 1896.027344 677.796875 "/><path d="M 1896.027344 443.613281 L 1475 443.613281 C 1462.519531 443.613281 1451.164062 450.828125 1445.863281 462.125 L 1416.859375 523.929688 C 1409.15625 540.347656 1392.65625 550.832031 1374.519531 550.832031 L 1312.511719 550.832031 L 786 550.84375 L 786 665.667969 L 1329.894531 665.667969 C 1342.378906 665.667969 1353.734375 658.453125 1359.035156 647.15625 L 1388.371094 584.640625 C 1395.871094 568.65625 1411.9375 558.449219 1429.59375 558.449219 L 1896.027344 558.441406 Z M 1896.027344 443.613281 "/><path d="M 786 316.65625 L 786 431.484375 L 1450.484375 431.484375 C 1462.964844 431.484375 1474.320312 424.269531 1479.621094 412.972656 L 1517.511719 331.648438 C 1520.765625 324.65625 1515.664062 316.648438 1507.949219 316.648438 Z M 786 316.65625 "/></g>
+    </defs>
+</svg>
+
+<div class="nav-dots"></div>
+<div class="edit-hotzone"></div>
+<button class="edit-toggle" id="editToggle">Edit (E)</button>
+<div class="edit-toast" id="editToast"></div>
+
+<!-- 1. COVER -->
+<section class="slide cover bg-lumber"><div class="stage">
+    <h1 class="at title display h-xl reveal" data-editable>Presentation<br>Title</h1>
+    <svg class="at mark linear slide-in" viewBox="786.0 316.6 1110.0 583.2"><use href="#sp-linear"/></svg>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg" data-editable>Month Year</span></div>
+</div></section>
+
+<!-- 2. SECTION DIVIDER -->
+<section class="slide divider bg-lumber"><div class="stage">
+    <h2 class="at title display h-xl reveal" data-editable>Section<br>Name</h2>
+    <div class="at num display reveal" data-editable>01</div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 3. AGENDA -->
+<section class="slide agenda"><div class="stage">
+    <div class="eyebrow"><span class="section">Introduction</span></div>
+    <div class="at lead reveal">
+        <h2 class="display h1" data-editable>Welcome to<br>the Shift Projects<br>presentation.</h2>
+        <p class="body" data-editable>A short line that tells the audience what this deck covers and why it matters to them.</p>
+    </div>
+    <div class="cols reveal">
+        <div class="item"><div class="n">01</div><div class="t sub-head" data-editable>About</div><ul><li data-editable>Story</li><li data-editable>Goals</li></ul></div>
+        <div class="item"><div class="n">02</div><div class="t sub-head" data-editable>Approach</div><ul><li data-editable>Process</li><li data-editable>Timeline</li></ul></div>
+        <div class="item"><div class="n">03</div><div class="t sub-head" data-editable>Results</div><ul><li data-editable>Highlights</li><li data-editable>Next steps</li></ul></div>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 4. SPLIT -->
+<section class="slide split"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>1.1 Subsection</span></div>
+    <h2 class="at l0 head display h1 reveal" data-editable>Built for today,<br>ready for tomorrow</h2>
+    <div class="at copy body reveal" data-editable><p>Supporting copy goes here. Use clear, direct language and keep it to a short paragraph.</p></div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 5. NUMBERED COLUMNS (use .row.three for three columns) -->
+<section class="slide numbered"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>1.2 Goals</span></div>
+    <h2 class="at head display h1 reveal" data-editable>Our goals</h2>
+    <div class="row reveal">
+        <div class="cell"><div class="n">1.</div><p class="body" data-editable>First goal, one or two lines.</p></div>
+        <div class="cell"><div class="n">2.</div><p class="body" data-editable>Second goal, one or two lines.</p></div>
+        <div class="cell"><div class="n">3.</div><p class="body" data-editable>Third goal, one or two lines.</p></div>
+        <div class="cell"><div class="n">4.</div><p class="body" data-editable>Fourth goal, one or two lines.</p></div>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 6. STATEMENT (slate) -->
+<section class="slide statement bg-slate"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>2.6 Tagline</span></div>
+    <h2 class="at big display reveal" data-editable>Homes built for today, ready for tomorrow.</h2>
+    <p class="at aside body reveal" data-editable>A short supporting paragraph, four or five lines at most.</p>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 7. REVERSED (washed black, brick bands) -->
+<section class="slide reversed bg-black"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>Key figure</span></div>
+    <div class="band one grow"></div><div class="band two grow"></div>
+    <div class="at stat display reveal" data-editable>100%</div>
+    <p class="at cap lede reveal" data-editable>What the number means, in one plain sentence.</p>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 8. STATS (3-up) -->
+<section class="slide stats"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>Results</span></div>
+    <h2 class="at head display h1 reveal" data-editable>The numbers,<br>plainly</h2>
+    <div class="row reveal">
+        <div class="cell"><div class="num display" data-editable>24</div><div class="label" data-editable>Projects delivered</div><p class="body muted" data-editable>One line of context for the figure.</p></div>
+        <div class="cell"><div class="num display" data-editable>98%</div><div class="label" data-editable>Client satisfaction</div><p class="body muted" data-editable>One line of context for the figure.</p></div>
+        <div class="cell"><div class="num display" data-editable>12</div><div class="label" data-editable>Weeks, average build</div><p class="body muted" data-editable>One line of context for the figure.</p></div>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 9. FEATURE + BRANDED CROP -->
+<section class="slide feature"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>Featured project</span></div>
+    <div class="at copy reveal">
+        <h2 class="display h2" data-editable>Brick considerations in a heritage home</h2>
+        <p class="body" data-editable>Two sentences on what the project was and what made it interesting. Keep it concrete.</p>
+        <ul><li data-editable>Point one, short and specific</li><li data-editable>Point two, short and specific</li><li data-editable>Point three, short and specific</li></ul>
+    </div>
+    <div class="at panel reveal">
+        <div class="photo project">Drop project photo</div>
+        <div class="tag" data-editable>Brick considerations<br>in a heritage home</div>
+        <svg class="mark icon" viewBox="1346.6 441.0 311.0 259.5"><use href="#sp-icon"/></svg>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 10. PHOTO GRID (process left, project right) -->
+<section class="slide photos"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>Process and projects</span></div>
+    <div class="grid reveal">
+        <div class="photo process p1">Process</div>
+        <div class="photo process p2">Process</div>
+        <div class="photo process p3">Process</div>
+        <div class="photo project p4">Project</div>
+        <div class="photo project p5">Project</div>
+        <div class="photo project p6">Project</div>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 11. QUOTE (olive) -->
+<section class="slide quote bg-olive"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>In their words</span></div>
+    <blockquote class="at q display reveal" data-editable>“They treated our home like it was theirs, and told us the truth at every step.”</blockquote>
+    <div class="at who reveal"><div class="label" data-editable>Client name</div><div class="body" data-editable>Project, neighbourhood</div></div>
+    <svg class="at mark icon reveal" viewBox="1346.6 441.0 311.0 259.5"><use href="#sp-icon"/></svg>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 12. TONE DIALS / SPECTRUM -->
+<section class="slide dials"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>4.1 Tone dials</span></div>
+    <h2 class="at head display h1 reveal" data-editable>How do we<br>speak?</h2>
+    <div class="rows reveal">
+        <div class="r"><div class="ends label"><span data-editable>Casual</span><span data-editable>Formal</span></div><div class="line"><span class="dot dial-dot" style="--v:58%;background:var(--sp-brick)"></span></div></div>
+        <div class="r"><div class="ends label"><span data-editable>Fun</span><span data-editable>Serious</span></div><div class="line"><span class="dot dial-dot" style="--v:60%;background:var(--sp-slate)"></span></div></div>
+        <div class="r"><div class="ends label"><span data-editable>Realistic</span><span data-editable>Idealistic</span></div><div class="line"><span class="dot dial-dot" style="--v:72%;background:var(--sp-lumber)"></span></div></div>
+        <div class="r"><div class="ends label"><span data-editable>Approachable</span><span data-editable>Exclusive</span></div><div class="line"><span class="dot dial-dot" style="--v:59%;background:var(--sp-olive)"></span></div></div>
+        <div class="r"><div class="ends label"><span data-editable>Traditional</span><span data-editable>Nontraditional</span></div><div class="line"><span class="dot dial-dot" style="--v:69%;background:var(--sp-brick)"></span></div></div>
+        <div class="r"><div class="ends label"><span data-editable>Friendly</span><span data-editable>Professional</span></div><div class="line"><span class="dot dial-dot" style="--v:33%;background:var(--sp-slate)"></span></div></div>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 13. PILLARS (focus + specialty) -->
+<section class="slide pillars"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>3.1 Company pillars</span></div>
+    <h2 class="at head l0 display h1 reveal" data-editable>Shift Projects</h2>
+    <div class="grp a reveal"><div class="label" data-editable>Focus</div><div class="cols"><div><div class="t sub-head" data-editable>Residential projects</div><p class="body" data-editable>Custom home building and renovations in a considered, stress-free environment</p></div></div></div>
+    <div class="grp b reveal"><div class="label" data-editable>Specialty</div><div class="cols">
+        <div><div class="t sub-head" data-editable>New builds</div><p class="body" data-editable>From foundation to finish: thoughtfully designed, modern living solutions.</p></div>
+        <div><div class="t sub-head" data-editable>Home renovations</div><p class="body" data-editable>Enhancing the comfort, health, and functionality of existing homes.</p></div>
+        <div><div class="t sub-head" data-editable>Accessibility renovations</div><p class="body" data-editable>Home adjustments that support aging and mobility.</p></div>
+    </div></div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 14. DO / DON'T -->
+<section class="slide dodont"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>Do's and don'ts</span></div>
+    <h2 class="at head l0 display h1 reveal" data-editable>Say it<br>this way</h2>
+    <div class="col yes reveal"><div class="label">Approved</div><div class="cells">
+        <div><div class="sample display" data-editable>Built for<br>today</div><p class="cap" data-editable>Black on cream.</p></div>
+        <div><div class="sample k display" data-editable>Built for<br>today</div><p class="cap" data-editable>Reversed.</p></div>
+        <div><div class="sample s display" data-editable>Built for<br>today</div><p class="cap" data-editable>Black on a brand colour.</p></div>
+        <div><div class="sample o display" data-editable>Built for<br>today</div><p class="cap" data-editable>Black on a brand colour.</p></div>
+    </div></div>
+    <div class="col no reveal"><div class="label">Unapproved</div><div class="cells">
+        <div><div class="sample x display" data-editable>Built for<br>today</div><p class="cap" data-editable>Don't use gradients.</p></div>
+        <div><div class="sample x b display" data-editable>Built for<br>today</div><p class="cap" data-editable>Don't mix secondary colours.</p></div>
+    </div></div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 15. CARDS (palette-style columns) -->
+<section class="slide cards"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>Options</span></div>
+    <h2 class="at head display h1 reveal" data-editable>Four ways<br>to start</h2>
+    <div class="row reveal">
+        <div class="c k"><div><div class="t sub-head" data-editable>Option one</div><p class="body" data-editable>Short description in a sentence or two.</p></div><div class="label" data-editable>Detail</div></div>
+        <div class="c cr"><div><div class="t sub-head" data-editable>Option two</div><p class="body" data-editable>Short description in a sentence or two.</p></div><div class="label" data-editable>Detail</div></div>
+        <div class="c l"><div><div class="t sub-head" data-editable>Option three</div><p class="body" data-editable>Short description in a sentence or two.</p></div><div class="label" data-editable>Detail</div></div>
+        <div class="c s"><div><div class="t sub-head" data-editable>Option four</div><p class="body" data-editable>Short description in a sentence or two.</p></div><div class="label" data-editable>Detail</div></div>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 16. STEPS (stepped bars echo the linear graphic) -->
+<section class="slide steps"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Section</span><span class="rule"></span><span class="sub" data-editable>Our process</span></div>
+    <h2 class="at head l0 display h1 reveal" data-editable>How a project<br>moves</h2>
+    <div class="bars">
+        <div class="bar grow"><span class="n display">1</span><span class="t sub-head" data-editable>Discover</span><span class="body" data-editable>What happens in this step.</span></div>
+        <div class="bar grow"><span class="n display">2</span><span class="t sub-head" data-editable>Design</span><span class="body" data-editable>What happens in this step.</span></div>
+        <div class="bar grow"><span class="n display">3</span><span class="t sub-head" data-editable>Build</span><span class="body" data-editable>What happens in this step.</span></div>
+        <div class="bar grow"><span class="n display">4</span><span class="t sub-head" data-editable>Handover</span><span class="body" data-editable>What happens in this step.</span></div>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 17. POLL / AUDIENCE PROMPT (lumber) -->
+<section class="slide poll bg-lumber"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Discussion</span><span class="rule"></span><span class="sub" data-editable>Poll</span></div>
+    <h2 class="at q l0 display h1 reveal" data-editable>What matters<br>most to you<br>in a build?</h2>
+    <div class="opts reveal">
+        <div class="opt"><span class="k">A</span><span class="lede" data-editable>Timeline</span></div>
+        <div class="opt"><span class="k">B</span><span class="lede" data-editable>Budget</span></div>
+        <div class="opt"><span class="k">C</span><span class="lede" data-editable>Design</span></div>
+        <div class="opt"><span class="k">D</span><span class="lede" data-editable>Accessibility</span></div>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 18. RECAP (3-column outline) -->
+<section class="slide recap"><div class="stage">
+    <div class="eyebrow"><span class="section" data-editable>Summary</span><span class="rule"></span><span class="sub" data-editable>What we covered</span></div>
+    <h2 class="at head display h1 reveal" data-editable>Recap</h2>
+    <div class="row reveal">
+        <div class="cell"><div class="n display">01</div><div class="t sub-head" data-editable>First topic</div><ul><li data-editable>Key point</li><li data-editable>Key point</li><li data-editable>Key point</li></ul></div>
+        <div class="cell"><div class="n display">02</div><div class="t sub-head" data-editable>Second topic</div><ul><li data-editable>Key point</li><li data-editable>Key point</li><li data-editable>Key point</li></ul></div>
+        <div class="cell"><div class="n display">03</div><div class="t sub-head" data-editable>Third topic</div><ul><li data-editable>Key point</li><li data-editable>Key point</li><li data-editable>Key point</li></ul></div>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<!-- 19. CLOSING -->
+<section class="slide closing bg-lumber"><div class="stage">
+    <h2 class="at title display reveal" data-editable>Thank you</h2>
+    <div class="at contact reveal"><p data-editable>Name<br>name@shiftprojects.com<br>shiftprojects.com</p></div>
+    <div class="at lockup reveal">
+        <svg class="mark icon" viewBox="1346.6 441.0 311.0 259.5"><use href="#sp-icon"/></svg>
+        <svg class="mark word" viewBox="218.9 381.0 759.3 379.5"><use href="#sp-stacked"/></svg>
+    </div>
+    <div class="footer"><span class="co">Shift Projects</span><span class="deck" data-editable>Deck Title</span><span class="pg"></span></div>
+</div></section>
+
+<script>
+class SlidePresentation {
+    constructor() {
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.current = 0;
+        this.dots = document.querySelector('.nav-dots');
+        this.slides.forEach((s, i) => {
+            const pg = s.querySelector('.footer .pg');
+            if (pg && !pg.textContent.trim()) pg.textContent = i + 1;
+            const b = document.createElement('button');
+            b.className = 'nav-dot';
+            b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+            b.addEventListener('click', () => this.go(i));
+            this.dots.appendChild(b);
+        });
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((e) => {
+                if (!e.isIntersecting) return;
+                e.target.classList.add('visible');
+                this.current = this.slides.indexOf(e.target);
+                this.dots.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === this.current));
+            });
+        }, { threshold: 0.5 });
+        this.slides.forEach((s) => io.observe(s));
+        document.addEventListener('keydown', (e) => {
+            if (e.target.isContentEditable || e.metaKey || e.ctrlKey) return;
+            const next = [' ', 'ArrowDown', 'ArrowRight', 'PageDown'], prev = ['ArrowUp', 'ArrowLeft', 'PageUp'];
+            if (next.includes(e.key)) { e.preventDefault(); this.go(this.current + 1); }
+            else if (prev.includes(e.key)) { e.preventDefault(); this.go(this.current - 1); }
+            else if (e.key === 'Home') { e.preventDefault(); this.go(0); }
+            else if (e.key === 'End') { e.preventDefault(); this.go(this.slides.length - 1); }
+        });
+        let y0 = 0;
+        document.addEventListener('touchstart', (e) => { y0 = e.changedTouches[0].screenY; }, { passive: true });
+        document.addEventListener('touchend', (e) => {
+            const d = y0 - e.changedTouches[0].screenY;
+            if (Math.abs(d) > 50) this.go(this.current + (d > 0 ? 1 : -1));
+        }, { passive: true });
+    }
+    go(i) {
+        i = Math.max(0, Math.min(i, this.slides.length - 1));
+        this.slides[i].scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+class InlineEditor {
+    constructor() {
+        this.active = false;
+        this.btn = document.getElementById('editToggle');
+        this.toast = document.getElementById('editToast');
+        this.btn.addEventListener('click', () => this.toggle());
+        document.addEventListener('keydown', (e) => {
+            if ((e.key === 'e' || e.key === 'E') && !e.target.isContentEditable && !e.metaKey && !e.ctrlKey) { this.toggle(); }
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); this.save(); }
+        });
+    }
+    toggle() {
+        this.active = !this.active;
+        document.body.classList.toggle('editing', this.active);
+        this.btn.classList.toggle('active', this.active);
+        document.querySelectorAll('[data-editable]').forEach((el) => { el.contentEditable = this.active ? 'true' : 'false'; });
+        this.say(this.active ? 'Edit mode on. Ctrl+S to save.' : 'Edit mode off.');
+    }
+    save() {
+        if (this.active) this.toggle();
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll('.nav-dots').forEach((n) => (n.innerHTML = ''));
+        clone.querySelectorAll('.slide').forEach((s) => s.classList.remove('visible', 'active'));
+        const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'shift-projects-deck.html';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        this.say('Saved.');
+    }
+    say(msg) {
+        this.toast.textContent = msg;
+        this.toast.classList.add('show');
+        setTimeout(() => this.toast.classList.remove('show'), 1800);
+    }
+}
+
+new SlidePresentation();
+new InlineEditor();
+</script>
+</body>
+</html>
