@@ -58,14 +58,20 @@ def rect(slide, x, y, w, h, color, name=None, shape=MSO_SHAPE.RECTANGLE, line=No
     if name: s.name = name
     return s
 
+def _noeffects(c):
+    st = c._element.find(qn('p:style'))
+    if st is not None: c._element.remove(st)
+
 def rule(slide, x, y, w, color=BLACK, weight=1.25, name='Rule'):
     c = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, r(x), r(y), r(x + w), r(y))
     c.line.color.theme_color = color; c.line.width = Pt(weight); c.name = name
+    _noeffects(c)
     return c
 
 def line(slide, x1, y1, x2, y2, color=BLACK, weight=1.25, name='Line'):
     c = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, r(x1), r(y1), r(x2), r(y2))
     c.line.color.theme_color = color; c.line.width = Pt(weight); c.name = name
+    _noeffects(c)
     return c
 
 def text(slide, x, y, w, h, content, size=14, bold=False, color=BLACK, display=False, align='l',
@@ -209,6 +215,7 @@ def H1(s, txt, x=4.15, y=11.5, w=44, size=48, color=BLACK):
 s = new(LUMBER_L, 'COVER. Replace the title. The stepped graphic is a native shape (Format > Fill to recolour).')
 text(s, 4.15, 3.6, 80, 32, 'Presentation\nTitle', size=110, display=True, ls=0.85, spc=-2, name='Title')
 linear(s, 54, 26.5, 46)
+icon(s, 90.45, 4.15, 5.4)
 
 # ================= 2 DIVIDER =================
 s = new(LUMBER_L, 'SECTION DIVIDER. Duplicate for each section; change the number and name.')
@@ -287,7 +294,7 @@ eyebrow(s, 'Section', 'Process and projects')
 tiles = [('Process', 4.15, 11.6, 24.2, 37, True), ('Process', 29.85, 11.6, 19.4, 11.33, True), ('Process', 29.85, 24.43, 19.4, 24.17, True),
          ('Project', 50.75, 11.6, 14.5, 23.17, False), ('Project', 66.75, 11.6, 29.1, 23.17, False), ('Project', 50.75, 36.1, 45.1, 12.5, False)]
 for i, (lab, x, y, w, h, proc) in enumerate(tiles):
-    rect(s, x, y, w, h, BLACK, f'Photo tile {i+1}', brightness=0.78 if proc else 0.88)
+    rect(s, x, y, w, h, CREAM, f'Photo tile {i+1}', brightness=-0.20 if proc else -0.09)
     text(s, x + 1, y + h - 2.6, 15, 2, lab, size=10, bold=True, caps=True, spc=1.6, muted=True, name=f'Tile {i+1} label')
 
 # ================= 11 QUOTE =================
@@ -324,7 +331,7 @@ for i, (tt, bd) in enumerate([('New builds', 'From foundation to finish: thought
                               ('Home renovations', 'Enhancing the comfort, health, and functionality of existing homes.'),
                               ('Accessibility renovations', 'Home adjustments that support aging and mobility.')]):
     x = 51 + i * 15.6
-    text(s, x, 32, 14.2, 6, tt, size=18, bold=True, caps=True, ls=0.95, name=f'Specialty {i+1} title')
+    text(s, x, 32, 15, 6, tt, size=16, bold=True, caps=True, ls=0.95, name=f'Specialty {i+1} title')
     text(s, x, 39.5, 14.2, 10, bd, size=14, name=f'Specialty {i+1} text')
 
 # ================= 14 DO / DON'T =================
