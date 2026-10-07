@@ -171,15 +171,17 @@ LAYOUTS = {}
 tmp = prs.slides.add_slide(prs.slide_layouts[0])
 def to_layout(shape, lay):
     lay.shapes._spTree.append(shape._element)
-spec = [('Shift - Cream', CREAM, BLACK), ('Shift - Lumber', LUMBER, BLACK), ('Shift - Slate', SLATE, BLACK),
-        ('Shift - Olive', OLIVE, BLACK), ('Shift - Washed Black', BLACK, CREAM)]
-for i, (nm, bg, fg) in enumerate(spec):
+base = [('Cream', CREAM, BLACK), ('Lumber', LUMBER, BLACK), ('Slate', SLATE, BLACK), ('Olive', OLIVE, BLACK), ('Washed Black', BLACK, CREAM)]
+# logo layouts first (what the template slides use), then a "no logo" twin of each
+spec = [(f'Shift - {n}', bg, fg, True) for n, bg, fg in base] + [(f'Shift - {n} (no logo)', bg, fg, False) for n, bg, fg in base]
+for i, (nm, bg, fg, logo) in enumerate(spec):
     lay = prs.slide_layouts[i]
     for sh in list(lay.placeholders): sh._element.getparent().remove(sh._element)
     lay._element.cSld.set('name', nm)
     lay.background.fill.solid(); lay.background.fill.fore_color.theme_color = bg
     to_layout(text(tmp, 4.15, 51.6, 18, 2, 'Shift Projects', size=10, bold=True, color=fg, caps=True, spc=1.6, name='Footer company'), lay)
     to_layout(text(tmp, 23.05, 51.6, 40, 2, 'Deck title', size=10, bold=True, color=fg, caps=True, spc=1.6, name='Footer deck title'), lay)
+    if logo: to_layout(icon(tmp, 92.45, 3.9, 3.4, fg), lay)
     pg = text(tmp, 80, 51.6, 15.85, 2, '', size=10, bold=True, color=fg, align='r', spc=1.6, name='Slide number')
     to_layout(pg, lay)
     p = pg.text_frame.paragraphs[0]
@@ -188,15 +190,14 @@ for i, (nm, bg, fg) in enumerate(spec):
     fld = etree.SubElement(p._p, '{%s}fld' % A); fld.set('id', '{B6F15528-21DE-4FAA-801E-634DDDAF4B2B}'); fld.set('type', 'slidenum')
     rp = etree.SubElement(fld, '{%s}rPr' % A); rp.set('lang', 'en-US'); rp.set('sz', '1000'); rp.set('b', '1'); rp.set('spc', '160')
     sf = etree.SubElement(rp, '{%s}solidFill' % A); sc = etree.SubElement(sf, '{%s}schemeClr' % A); sc.set('val', 'bg1' if fg == CREAM else 'tx1')
-    tt = etree.SubElement(fld, '{%s}t' % A); tt.text = '‹#›'
-    # move field before endParaRPr if present
+    tt = etree.SubElement(fld, '{%s}t' % A); tt.text = '\u2039#\u203a'
     end = p._p.find(qn('a:endParaRPr'))
     if end is not None: p._p.remove(end); p._p.append(end)
     LAYOUTS[nm] = lay
 _id = prs.slides._sldIdLst[0]; prs.part.drop_rel(_id.rId); prs.slides._sldIdLst.remove(_id)
-for lay in list(prs.slide_layouts)[5:]: prs.slide_layouts.remove(lay)
+for lay in list(prs.slide_layouts)[10:]: prs.slide_layouts.remove(lay)
 
-CREAM_L, LUMBER_L, SLATE_L, OLIVE_L, BLACK_L = [LAYOUTS[s[0]] for s in spec]
+CREAM_L, LUMBER_L, SLATE_L, OLIVE_L, BLACK_L = [LAYOUTS[s[0]] for s in spec[:5]]
 
 def new(layout, notes):
     s = prs.slides.add_slide(layout)
@@ -215,12 +216,11 @@ def H1(s, txt, x=4.15, y=11.5, w=44, size=48, color=BLACK):
 s = new(LUMBER_L, 'COVER. Replace the title. The stepped graphic is a native shape (Format > Fill to recolour).')
 text(s, 4.15, 3.6, 80, 32, 'Presentation\nTitle', size=110, display=True, ls=0.85, spc=-2, name='Title')
 linear(s, 54, 26.5, 46)
-icon(s, 90.45, 4.15, 5.4)
 
 # ================= 2 DIVIDER =================
 s = new(LUMBER_L, 'SECTION DIVIDER. Duplicate for each section; change the number and name.')
 text(s, 4.15, 3.6, 70, 32, 'Section\nName', size=110, display=True, ls=0.85, spc=-2, name='Title')
-text(s, 70, 3.6, 25.85, 14, '01', size=110, display=True, align='r', spc=-2, name='Section number')
+text(s, 58, 3.6, 30.5, 14, '01', size=110, display=True, align='r', spc=-2, name='Section number')
 
 # ================= 3 AGENDA =================
 s = new(CREAM_L, 'AGENDA. Three numbered sections with short lists.')
@@ -303,7 +303,6 @@ eyebrow(s, 'Section', 'In their words')
 text(s, 4.15, 11.5, 82, 30, '“They treated our home like it was theirs, and told us the truth at every step.”', size=48, display=True, ls=0.98, spc=-0.5, name='Quote')
 text(s, 4.15, 41.5, 40, 2, 'Client name', size=11, bold=True, caps=True, spc=1.6, name='Attribution')
 text(s, 4.15, 44, 40, 3, 'Project, neighbourhood', size=14, name='Attribution detail')
-icon(s, 89.35, 43.5, 6.5)
 
 # ================= 12 TONE DIALS =================
 s = new(CREAM_L, 'SPECTRUM / TONE DIALS. Drag the coloured dot along each line to set a value.')
@@ -404,7 +403,6 @@ for i, tt in enumerate(['First topic', 'Second topic', 'Third topic']):
 s = new(LUMBER_L, 'CLOSING. Thank you, contact details, icon + stacked wordmark lockup.')
 text(s, 4.15, 3.6, 80, 16, 'Thank you', size=110, display=True, spc=-2, name='Title')
 text(s, 4.15, 33, 50, 12, 'Name\nname@shiftprojects.com\nshiftprojects.com', size=18, bold=True, caps=True, ls=1.05, name='Contact')
-icon(s, 57.5, 38.5, 7)
 stacked(s, 77.85, 37.4, 18)
 
 prs.save(OUT)

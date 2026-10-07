@@ -106,7 +106,9 @@ Colour: Washed Black on light backgrounds, Cream on Washed Black. No other colou
 
 **Never** skew, add effects, outline, remake in another font, change the icon/wordmark relationship, crop into a shape, recolour, change alignment, or change proportions.
 
-Placement in the template: the icon sits top-right on cover and content slides; the stacked wordmark is used on the cover and closing.
+Placement in the template: the icon sits top-right on every slide by default (press **L** in the HTML deck to hide it, or add `no-logo` to a slide; in PPTX use the "(no logo)" layouts).
+
+Placement detail: the icon sits top-right on cover and content slides; the stacked wordmark is used on the cover and closing.
 
 ---
 

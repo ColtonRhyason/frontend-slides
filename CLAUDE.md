@@ -16,6 +16,9 @@ Use the native template, not the HTML (HTML does not convert cleanly):
 4. Save to Downloads, then tell the user: drag the `.pptx` into Google Drive, right-click, Open with Google Slides. Details: `docs/google-slides.md`.
 Do not add or invent brand elements. Photos are placeholders: tell the user to insert images over the grey tiles.
 
+## Logo
+The Shift icon is on every slide by default. HTML: press **L** to hide/show it, or add `class="no-logo"` to a slide. Google Slides/PPTX: switch the slide to the matching "(no logo)" layout. Never recolour or alter it (Washed Black on light, Cream on Washed Black only).
+
 ## First-time setup (a fresh machine)
 Run `bash ~/.claude/skills/frontend-slides/setup.sh`. It checks for Node.js and Python, installs `python-pptx`, and downloads the PDF-export browser. Report anything it says is missing and how to install it.
 
