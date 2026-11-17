@@ -1,3 +1,7 @@
 .DS_Store
 __pycache__/
 *.pyc
+.claude-design/
+node_modules/
+.vercel/
+*.log
